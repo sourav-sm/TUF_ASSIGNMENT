@@ -1,12 +1,15 @@
 const express=require('express');
 const app=express();
 const port=5000;
+const cors=require("cors");
 
 app.use(express.json());
+app.use(cors());
 
 let submissions=[];
 
 app.post('/submit',(req,res)=>{
+    try{
     const { username, codeLanguage, stdin, sourceCode } = req.body;
 
     //validation for required fields
@@ -22,12 +25,18 @@ app.post('/submit',(req,res)=>{
         codeLanguage,
         stdin,
         sourceCode,
-        timestamp
+        // timestamp
     });
 
     res.status(201).json({message:'Submission received'});
+     } catch(error){
+        console.log("error in submit",error);
+     }
 })
-
+app.get('/', (req, res) => {
+    res.send('Welcome to the submission server');
+  });
+  
 //route for submissions
 app.get('/submissions',(req,res)=>{
     res.json(submissions);

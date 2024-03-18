@@ -8,7 +8,7 @@ function App() {
     <Router>
       <Routes> 
         <Route path="/" element={<FormComponent />} />
-        <Route path="/table" element={<TableComponent />} />
+        <Route path="/table" element={<TableComponent />}/>
       </Routes>
     </Router>
   );
