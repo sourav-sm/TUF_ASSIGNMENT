@@ -1,16 +1,30 @@
 const express=require('express');
 const mysql = require('mysql2');
 const app=express();
-const port=5000;
+const port=process.env.PORT || 5000;
 const cors=require("cors");
 
+require('dotenv').config()
+// require('dotenv').config()
+
 //  CREATING DB
-const db=mysql.createConnection({
-  host:'localhost',
-  user:'root',
-  password:'sourav123',
-  database:'submission_db'
-})
+// const db=mysql.createConnection({
+//   host:'localhost',
+//   user:'root',
+//   password:'sourav123',
+//   database:'submission_db'
+//   // host:process.env.DB_host,
+//   // user:process.env.DB_user,
+//   // password:process.env.DB_password,
+//   // database:process.env.DB_database
+// })
+const db = mysql.createConnection({
+  host: process.env.DB_host,
+  user: process.env.DB_user,
+  password: process.env.DB_password,
+  database: process.env.DB_database
+});
+
 
 app.use(express.json());
 app.use(cors());
@@ -23,7 +37,7 @@ app.get('/', (req, res) => {
 
 app.post('/submit',(req,res)=>{
     try{
-    const { username, codeLanguage, stdin, sourceCode } = req.body;
+    const { username, codeLanguage, stdin, sourceCode  } = req.body;
 
     //validation for required fields
     if (!username || !codeLanguage || !stdin || !sourceCode) {
@@ -31,8 +45,8 @@ app.post('/submit',(req,res)=>{
     }
     //timestamp part
     const timestamp=new Date().toISOString();
-  db.query('INSERT INTO submissions (username, codeLanguage, stdin, sourceCode) VALUES(?,?,?,?)',
-  [username, codeLanguage, stdin, sourceCode],
+  db.query('INSERT INTO submissions (username, codeLanguage, stdin, timestamp,sourceCode) VALUES(?,?,?,?,?)',
+  [username, codeLanguage, stdin, timestamp,sourceCode],
   (error,results)=>{
     if(error){
       console.log('error in submisition data in db',error);
