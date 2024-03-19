@@ -6,6 +6,10 @@ const cors=require("cors");
 app.use(express.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the submission server');
+});
+
 let submissions=[];
 
 app.post('/submit',(req,res)=>{
@@ -25,7 +29,7 @@ app.post('/submit',(req,res)=>{
         codeLanguage,
         stdin,
         sourceCode,
-        // timestamp
+        timestamp
     });
 
     res.status(201).json({message:'Submission received'});
@@ -33,9 +37,6 @@ app.post('/submit',(req,res)=>{
         console.log("error in submit",error);
      }
 })
-app.get('/', (req, res) => {
-    res.send('Welcome to the submission server');
-  });
   
 //route for submissions
 app.get('/submissions',(req,res)=>{

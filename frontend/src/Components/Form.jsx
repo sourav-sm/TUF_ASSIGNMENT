@@ -41,7 +41,8 @@ const FormComponent = () => {
           <div className="col-span-2">
             <label className="font-semibold text-lg">Preferred code language:</label>
             <select name="codeLanguage" value={formData.codeLanguage} onChange={handleChange}>
-              <option value="C++">C++</option>
+            <option value="select">Select</option>
+            <option value="C++">C++</option>
               <option value="Java">Java</option>
               <option value="JavaScript">JavaScript</option>
               <option value="Python">Python</option>
