@@ -8,22 +8,22 @@ require('dotenv').config()
 // require('dotenv').config()
 
 //  CREATING DB
-// const db=mysql.createConnection({
-//   host:'localhost',
-//   user:'root',
-//   password:'sourav123',
-//   database:'submission_db'
-//   // host:process.env.DB_host,
-//   // user:process.env.DB_user,
-//   // password:process.env.DB_password,
-//   // database:process.env.DB_database
-// })
-const db = mysql.createConnection({
-  host: process.env.DB_host,
-  user: process.env.DB_user,
-  password: process.env.DB_password,
-  database: process.env.DB_database
-});
+const db=mysql.createConnection({
+  // host:'localhost',
+  // user:'root',
+  // password:'sourav123',
+  // database:'submission_db'
+  host:process.env.DB_host,
+  user:process.env.DB_user,
+  password:process.env.DB_password,
+  database:process.env.DB_database
+})
+// const db = mysql.createConnection({
+//   host: process.env.DB_host,
+//   user: process.env.DB_user,
+//   password: process.env.DB_password,
+//   database: process.env.DB_database
+// });
 
 
 app.use(express.json());
@@ -44,7 +44,7 @@ app.post('/submit',(req,res)=>{
       return res.status(400).json({ message: 'All fields are required' });
     }
     //timestamp part
-    const timestamp=new Date().toISOString();
+    const timestamp=new Date().toISOString().slice(0,19).replace('T',' ');
   db.query('INSERT INTO submissions (username, codeLanguage, stdin, timestamp,sourceCode) VALUES(?,?,?,?,?)',
   [username, codeLanguage, stdin, timestamp,sourceCode],
   (error,results)=>{
